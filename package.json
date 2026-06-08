@@ -1,0 +1,30 @@
+{
+  "name": "crud-monorepo",
+  "version": "1.0.0",
+  "description": "Monorepo com backend Spring Boot, backend Node.js e frontend React",
+  "private": true,
+  "scripts": {
+    "backend:install": "cd backend && mvnw.cmd install",
+    "backend:run": "cd backend && mvnw.cmd spring-boot:run",
+    "backend:test": "cd backend && mvnw.cmd test",
+    "backend-node:install": "cd backend-node && npm install",
+    "backend-node:run": "cd backend-node && npm run dev",
+    "backend-node:start": "cd backend-node && npm start",
+    "backend-node:test": "cd backend-node && npm test",
+    "frontend:install": "cd frontend && npm install",
+    "frontend:dev": "cd frontend && npm run dev",
+    "frontend:build": "cd frontend && npm run build",
+    "frontend:test": "cd frontend && npm run lint",
+    "dev": "concurrently \"npm run backend:run\" \"npm run backend-node:run\" \"npm run frontend:dev\"",
+    "dev:backend": "concurrently \"npm run backend:run\" \"npm run backend-node:run\"",
+    "install:all": "npm run backend:install && npm run backend-node:install && npm run frontend:install",
+    "build:all": "npm run backend:install && npm run frontend:build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "workspaces": [
+    "frontend",
+    "backend-node"
+  ]
+}

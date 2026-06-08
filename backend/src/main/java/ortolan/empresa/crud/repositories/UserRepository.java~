@@ -1,0 +1,2 @@
+package ortolan.empresa.crud.repositories;public interface UserRepository {
+}

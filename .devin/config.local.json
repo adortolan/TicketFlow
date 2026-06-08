@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Exec(cd)",
+      "Exec(ls)",
+      "Exec(mkdir)",
+      "Exec(rmdir target)",
+      "Exec(Remove-Item)",
+      "Exec(rm)",
+      "Exec(dir)",
+      "Exec(Get-ChildItem)"
+    ]
+  }
+}
