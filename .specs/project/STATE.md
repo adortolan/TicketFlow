@@ -1,18 +1,47 @@
 # State
 
-**Last Updated:** 2026-06-08T17:01:00Z
-**Current Work:** Enhanced Frontend Implementation - Complete
+**Last Updated:** 2026-06-08T18:30:00Z
+**Current Work:** Project documentation update to reflect TicketFlow microservices architecture
 
 ---
 
 ## Recent Decisions (Last 60 days)
 
-### AD-001: Use H2 in-memory database for development (2026-06-08)
+### AD-005: Adopt microservices architecture for TicketFlow (2026-06-08)
+
+**Decision:** Evolve from monolithic CRUD to microservices architecture with Node.js, Spring Boot, RabbitMQ, MySQL, and React
+**Reason:** Better aligns with PRD requirements and demonstrates distributed systems patterns, async messaging, and JWT authentication
+**Trade-off:** Increased complexity with multiple services to coordinate, requires Docker Compose for local development
+**Impact:** Project now demonstrates event-driven architecture, service communication via RabbitMQ, and decentralized JWT validation
+
+### AD-006: Use MySQL instead of H2 for production-ready database (2026-06-08)
+
+**Decision:** Configure MySQL 8.0 as primary database instead of H2 in-memory
+**Reason:** PRD specifies MySQL for ACID compliance and production readiness; required for multi-service data persistence
+**Trade-off:** Requires external database setup (Docker), more complex configuration than H2
+**Impact:** Data persists across restarts, enables true microservices data sharing, production-ready configuration
+
+### AD-007: Implement Node.js as Auth/Gateway Service (2026-06-08)
+
+**Decision:** Use Node.js + Express for authentication and API Gateway instead of Spring Security
+**Reason:** Faster development for auth endpoints, JWT generation, and initial request handling; demonstrates polyglot architecture
+**Trade-off:** Additional service to maintain, JWT validation logic duplicated across services
+**Impact:** Separates auth concerns from business logic, enables independent scaling of auth vs core processing
+
+### AD-008: Use RabbitMQ for async order processing (2026-06-08)
+
+**Decision:** Implement RabbitMQ for asynchronous communication between Node.js and Spring Boot services
+**Reason:** Decouples services, enables message queuing for order processing, improves resilience
+**Trade-off:** Additional infrastructure component, requires message queue management
+**Impact:** Orders can be queued even if Spring Boot is temporarily unavailable, enables future scaling
+
+### AD-001: Use H2 in-memory database for development (2026-06-08) - DEPRECATED
 
 **Decision:** Use H2 in-memory database instead of production database
 **Reason:** Simplifies development and setup for learning project
 **Trade-off:** Data persistence lost on restart, not production-ready
 **Impact:** Requires future migration to PostgreSQL/MySQL for production use
+**Status:** Replaced by AD-006 - now using MySQL 8.0
 
 ### AD-002: Implement layered architecture with Spring Boot (2026-06-08)
 
@@ -45,6 +74,13 @@ None currently.
 
 ## Lessons Learned
 
+### L-004: Documentation must evolve with architecture changes (2026-06-08)
+
+**Context:** Project evolved from monolithic CRUD to microservices TicketFlow but documentation wasn't updated
+**Problem:** Documentation in .specs/ described old architecture, causing confusion about actual project structure
+**Solution:** Update all .specs/ documentation to reflect current microservices architecture per PRD
+**Prevents:** Future confusion about project scope, architecture, and implementation status
+
 ### L-001: Backup files should be in .gitignore (2026-06-08)
 
 **Context:** Found multiple backup files (~) in the codebase during brownfield mapping
@@ -71,10 +107,12 @@ None currently.
 
 ## Quick Tasks Completed
 
-|| # | Description | Date | Commit | Status |
-|---|-----------|------|--------|--------|
-| 001 | Project initialization with spec-driven documentation | 2026-06-08 | N/A | ✅ Done |
-| 002 | Enhanced frontend implementation with full CRUD functionality | 2026-06-08 | N/A | ✅ Done |
+||| # | Description | Date | Commit | Status |
+||---|-----------|------|--------|--------|
+|| 001 | Project initialization with spec-driven documentation | 2026-06-08 | N/A | ✅ Done |
+|| 002 | Enhanced frontend implementation with full CRUD functionality | 2026-06-08 | N/A | ✅ Done |
+|| 003 | Infrastructure setup for microservices (Docker Compose, MySQL, RabbitMQ) | 2026-06-08 | N/A | ✅ Done |
+|| 004 | Project documentation update to reflect TicketFlow architecture | 2026-06-08 | N/A | ✅ Done |
 
 ---
 
@@ -82,15 +120,18 @@ None currently.
 
 - [ ] Add TypeScript to frontend for better type safety — Captured during: Project initialization
 - [ ] Implement API versioning for future compatibility — Captured during: Project initialization
-- [ ] Add pagination to user list endpoint — Captured during: Project initialization
-- [ ] Implement caching layer for frequently accessed data — Captured during: Project initialization
+- [ ] Add pagination to event list endpoint — Captured during: Microservices architecture planning
+- [ ] Implement caching layer for frequently accessed data — Captured during: Microservices architecture planning
+- [ ] Add circuit breaker pattern for RabbitMQ communication — Captured during: Microservices architecture planning
 
 ---
 
 ## Todos
 
-- [ ] Remove backup files (~) from codebase
-- [ ] Add backup file pattern to .gitignore
-- [ ] Consider adding controller integration tests
-- [ ] Add React Testing Library for frontend component testing
-- [ ] Configure ESLint for frontend code quality
+- [ ] Implement RF01 - User authentication with JWT in Node.js service
+- [ ] Implement RF02 - Event catalog with role-based access control
+- [ ] Implement RF03 - Async order processing via RabbitMQ
+- [ ] Migrate Spring Boot backend from H2 to MySQL
+- [ ] Update frontend React to consume TicketFlow APIs instead of CRUD APIs
+- [ ] Add integration tests for RabbitMQ communication
+- [ ] Add E2E tests for complete purchase flow

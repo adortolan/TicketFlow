@@ -1,157 +1,171 @@
 # Roadmap
 
-**Current Milestone:** Enhanced Frontend Complete
+**Current Milestone:** Infrastructure Setup
 **Status:** Complete
 
 ---
 
-## Milestone 1: Foundation
+## Milestone 1: Infrastructure Setup
 
-**Goal:** Basic CRUD application with working backend API and frontend display
+**Goal:** Configurar infraestrutura base para microsserviços (MySQL, RabbitMQ, Docker Compose)
 **Target:** Complete
 
 ### Features
 
-**User CRUD API** - COMPLETE
+**Docker Compose Configuration** - COMPLETE
 
-- REST endpoints for user operations (GET, POST, PUT, DELETE)
-- Service layer with business logic
-- Repository layer with Spring Data JPA
-- Global exception handling
-- CORS configuration
+- MySQL 8.0 container com volume persistente
+- RabbitMQ 3.12 com interface de management
+- Network configuration para comunicação entre serviços
+- Health checks para todos os serviços
+- Script init.sql para inicialização do banco
 
-**Frontend User Display** - COMPLETE
+**Backend Node.js Structure** - COMPLETE
 
-- React application with Vite
-- User list display from API
-- Error handling and loading states
-- Development proxy configuration
+- Estrutura de pastas (config, controllers, middleware, models, routes)
+- Configuração de dependências (Express, JWT, BCrypt, MySQL2, AMQP)
+- Configuração de ambiente (.env.example)
+- Dockerfile para containerização
 
-**Testing Infrastructure** - COMPLETE
+**Backend Spring Boot Structure** - COMPLETE
 
-- Unit tests for service layer
-- Unit tests for entities
-- Integration tests for exception handling
-- JaCoCo coverage reporting
+- Estrutura de pastas (config, controller, entities, repositories, services)
+- Configuração de dependências (Spring Boot, Spring Data JPA)
+- Dockerfile para containerização
+- Configuração Maven
 
-**Containerization** - COMPLETE
+**Frontend React Structure** - COMPLETE
 
-- Docker configuration for backend
-- Docker configuration for frontend with nginx
-- Docker Compose orchestration
-- Health checks and service dependencies
+- Estrutura de pastas (components, App.jsx)
+- Configuração Vite
+- Dockerfile com nginx para produção
+- Configuração de proxy para backend
 
 ---
 
-## Milestone 2: Enhanced Frontend
+## Milestone 2: Auth & Gateway Service (Node.js)
 
-**Goal:** Complete CRUD operations in frontend with forms and better UX
-**Target:** Complete
+**Goal:** Implementar serviço de autenticação e API Gateway com JWT
+**Target:** In Progress
 
 ### Features
 
-**User Creation Form** - COMPLETE
+**RF01 - Gestão de Usuários** - IN PROGRESS
 
-- Form for creating new users
-- Input validation
-- Success/error feedback
-- Auto-refresh user list after creation
+- Registro de usuários (Nome, E-mail, Senha, CPF) - TODO
+- Login com geração de token JWT - TODO
+- Criptografia de senhas com BCrypt - TODO
+- Validação de tokens JWT em middleware - TODO
+- Claims básicos (ID, email, role: CLIENTE/ADMIN) - TODO
 
-**User Edit Form** - COMPLETE
+**API Gateway** - IN PROGRESS
 
-- Form for editing existing users
-- Pre-populated with current data
-- Input validation
-- Success/error feedback
+- Rotas de autenticação (/api/auth/*) - TODO
+- Rotas de eventos (/api/events/*) - TODO
+- Rotas de pedidos (/api/orders/*) - TODO
+- Middleware de autenticação JWT - TODO
+- CORS configuration - TODO
 
-**User Delete Confirmation** - COMPLETE
+**Database Integration** - IN PROGRESS
 
-- Confirmation dialog before deletion
-- Visual feedback during deletion
-- Auto-refresh user list after deletion
-
-**Improved Error Handling** - COMPLETE
-
-- User-friendly error messages
-- Retry mechanisms for failed requests
-- Loading states for all operations
+- Conexão com MySQL via MySQL2 - TODO
+- Models User, Event, Order - TODO
+- Migração de schema para MySQL - TODO
 
 ---
 
-## Milestone 3: Production Readiness
+## Milestone 3: Core Business Service (Spring Boot)
 
-**Goal:** Add security, validation, and production database support
+**Goal:** Implementar serviço core para processamento de eventos e pedidos
 **Target:** Planned
 
 ### Features
 
-**Authentication & Authorization** - PLANNED
+**RF03 - Processamento Assíncrono** - PLANNED
 
-- Spring Security configuration
-- JWT or session-based authentication
-- Role-based access control
-- Protected API endpoints
+- Configuração Spring AMQP para RabbitMQ - TODO
+- Consumer da fila order.created - TODO
+- Validação de disponibilidade de ingressos - TODO
+- Atualização de estoque no MySQL - TODO
+- Geração de bilhete final - TODO
 
-**Input Validation** - PLANNED
+**RF02 - Catálogo de Eventos** - PLANNED
 
-- Jakarta validation annotations on entities
-- Validation in controllers
-- Client-side validation in forms
-- Custom validation messages
+- Entities Event e Order com JPA - TODO
+- Repositories Spring Data JPA - TODO
+- Serviço de gerenciamento de eventos - TODO
+- Validação de role ADMIN para criação - TODO
 
-**Production Database** - PLANNED
+**Database Integration** - PLANNED
 
-- PostgreSQL or MySQL configuration
-- Profile-based configuration (dev/prod)
-- Database migration support (Flyway/Liquibase)
-- Connection pooling
-
-**API Documentation** - PLANNED
-
-- SpringDoc OpenAPI integration
-- Interactive API documentation
-- Request/response examples
-- API versioning
+- Configuração MySQL connection - TODO
+- Spring Data JPA configuration - TODO
+- Transaction management - TODO
 
 ---
 
-## Milestone 4: Quality & Performance
+## Milestone 4: Frontend React
 
-**Goal:** Improve code quality, testing coverage, and performance
+**Goal:** Implementar interface de usuário para eventos e compra de ingressos
 **Target:** Planned
 
 ### Features
 
-**Comprehensive Testing** - PLANNED
+**RF01 - Autenticação no Frontend** - PLANNED
 
-- Controller integration tests
-- Repository tests with @DataJpaTest
-- Frontend component tests with React Testing Library
-- E2E tests with Cypress or Playwright
+- Formulário de registro de usuários - TODO
+- Formulário de login - TODO
+- Armazenamento de token JWT (localStorage) - TODO
+- Envio de token em headers Authorization - TODO
 
-**Performance Optimizations** - PLANNED
+**RF02 - Catálogo de Eventos** - PLANNED
 
-- Pagination for user list
-- Caching layer for frequently accessed data
-- Database query optimization
-- Frontend code splitting
+- Listagem de eventos disponíveis - TODO
+- Detalhes de evento individual - TODO
+- Interface para criação de eventos (ADMIN) - TODO
 
-**Code Quality Improvements** - PLANNED
+**RF03 - Fluxo de Compra** - PLANNED
 
-- TypeScript migration for frontend
-- Remove backup files and clean git history
-- Add code comments for complex logic
-- Configure stricter linting rules
+- Seleção de quantidade de ingressos - TODO
+- Botão de compra com feedback - TODO
+- Polling de status do pedido - TODO
+- Exibição de bilhete confirmado - TODO
+
+---
+
+## Milestone 5: Integration & Testing
+
+**Goal:** Integrar todos os serviços e implementar testes
+**Target:** Planned
+
+### Features
+
+**Integration Testing** - PLANNED
+
+- Teste de fluxo completo de compra - TODO
+- Teste de comunicação RabbitMQ - TODO
+- Teste de autenticação JWT entre serviços - TODO
+
+**End-to-End Testing** - PLANNED
+
+- Teste E2E com Cypress ou Playwright - TODO
+- Teste de resiliência (serviço Spring Boot down) - TODO
+
+**Documentation** - PLANNED
+
+- Documentação de API endpoints - TODO
+- Guia de setup local - TODO
+- Diagramas de arquitetura - TODO
 
 ---
 
 ## Future Considerations
 
-- Advanced filtering and search capabilities
-- Export functionality (CSV, PDF)
-- User profile images
-- Audit logging for data changes
-- Real-time updates with WebSockets
-- Multi-language support (i18n)
-- Dark mode UI
+- Dashboard administrativo avançado
+- Sistema de notificações por e-mail real
+- Pagamento real com gateways de pagamento
+- Sistema de avaliações/comentários de eventos
+- Relatórios financeiros complexos
+- Caching layer para performance
+- TypeScript migration para frontend
 - Mobile-responsive design improvements

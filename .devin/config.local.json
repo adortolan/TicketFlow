@@ -16,7 +16,8 @@
       "Exec(git push)",
       "Exec(netstat)",
       "Exec(taskkill)",
-      "Exec(curl)"
+      "Exec(curl)",
+      "Exec(git diff)"
     ]
   }
 }
