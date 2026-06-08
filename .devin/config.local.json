@@ -8,7 +8,15 @@
       "Exec(Remove-Item)",
       "Exec(rm)",
       "Exec(dir)",
-      "Exec(Get-ChildItem)"
+      "Exec(Get-ChildItem)",
+      "Exec(git status)",
+      "Exec(git log)",
+      "Exec(git add)",
+      "Exec(git commit)",
+      "Exec(git push)",
+      "Exec(netstat)",
+      "Exec(taskkill)",
+      "Exec(curl)"
     ]
   }
 }

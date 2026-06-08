@@ -1,7 +1,7 @@
 # State
 
-**Last Updated:** 2026-06-08T15:43:00Z
-**Current Work:** Project Initialization - Complete
+**Last Updated:** 2026-06-08T17:01:00Z
+**Current Work:** Enhanced Frontend Implementation - Complete
 
 ---
 
@@ -28,6 +28,13 @@
 **Trade-off:** Less familiar to some developers compared to CRA
 **Impact:** Faster hot-reload and build times during development
 
+### AD-004: Implement component-based architecture for frontend (2026-06-08)
+
+**Decision:** Break monolithic App.jsx into 5 reusable components (UserList, UserForm, DeleteConfirmation, ErrorMessage, LoadingSpinner)
+**Reason:** Improved maintainability, reusability, and testability; follows React best practices
+**Trade-off:** More files to manage, prop drilling for state management
+**Impact:** Clear separation of concerns, easier to extend and modify individual features
+
 ---
 
 ## Active Blockers
@@ -52,6 +59,14 @@ None currently.
 **Solution:** Implement profile-based CORS configuration for different environments
 **Prevents:** Security vulnerabilities from overly permissive CORS in production
 
+### L-003: Manual form validation sufficient for simple forms (2026-06-08)
+
+**Context:** Enhanced frontend required form validation for user creation/editing
+**Problem:** Deciding between form validation library vs manual validation
+**Solution:** Used manual validation with React state for this simple use case
+**Prevents:** Unnecessary dependencies for basic validation requirements
+**Future:** Consider react-hook-form + yup for complex forms with advanced validation
+
 ---
 
 ## Quick Tasks Completed
@@ -59,6 +74,7 @@ None currently.
 || # | Description | Date | Commit | Status |
 |---|-----------|------|--------|--------|
 | 001 | Project initialization with spec-driven documentation | 2026-06-08 | N/A | ✅ Done |
+| 002 | Enhanced frontend implementation with full CRUD functionality | 2026-06-08 | N/A | ✅ Done |
 
 ---
 
@@ -76,4 +92,5 @@ None currently.
 - [ ] Remove backup files (~) from codebase
 - [ ] Add backup file pattern to .gitignore
 - [ ] Consider adding controller integration tests
-- [ ] Evaluate adding React Testing Library for frontend testing
+- [ ] Add React Testing Library for frontend component testing
+- [ ] Configure ESLint for frontend code quality
