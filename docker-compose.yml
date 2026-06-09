@@ -73,14 +73,14 @@ services:
     environment:
       - PORT=3001
       - NODE_ENV=development
-      - JWT_SECRET=your-secret-key-change-in-production
+      - JWT_SECRET=seu-segredo-super-secreto
       - JWT_EXPIRES_IN=24h
       - DB_HOST=mysql
       - DB_PORT=3306
       - DB_NAME=ticketflow
       - DB_USER=root
       - DB_PASSWORD=root
-      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
       - RABBITMQ_QUEUE_ORDER_CREATED=order.created
       - RABBITMQ_QUEUE_USER_REGISTERED=user.registered
     depends_on:
