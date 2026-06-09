@@ -32,6 +32,10 @@ build/
 ### VS Code ###
 .vscode/
 
+### Node.js ###
+node_modules/
+package-lock.json
+
 ### Frontend (React/Node) ###
 frontend/node_modules/
 frontend/dist/
@@ -39,3 +43,7 @@ frontend/dist-ssr/
 frontend/*.local
 frontend/.env.local
 frontend/.env.*.local
+
+### Backend Node.js ###
+backend-node/node_modules/
+backend-node/.env
