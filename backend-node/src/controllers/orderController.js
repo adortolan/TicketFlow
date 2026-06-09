@@ -4,11 +4,11 @@ const { getChannel } = require('../config/rabbitmq');
 
 const createOrder = async (req, res) => {
   try {
-    const { event_id, quantity } = req.body;
+    const { eventId, quantity } = req.body;
     const user_id = req.user.id;
 
     // Get event details
-    const event = await Event.findById(event_id);
+    const event = await Event.findById(eventId);
     if (!event) {
       return res.status(404).json({ error: 'Event not found' });
     }
@@ -24,7 +24,7 @@ const createOrder = async (req, res) => {
     // Create order with PENDING status
     const orderId = await Order.create({
       user_id,
-      event_id,
+      event_id: eventId,
       quantity,
       total_price,
       status: 'PENDING'
@@ -36,7 +36,7 @@ const createOrder = async (req, res) => {
       const orderMessage = {
         orderId,
         userId: user_id,
-        eventId: event_id,
+        eventId: eventId,
         quantity,
         totalPrice: total_price
       };
@@ -51,10 +51,10 @@ const createOrder = async (req, res) => {
       // Continue anyway, order is saved
     }
 
-    res.status(201).json({
+    res.status(202).json({
       message: 'Order created and is being processed',
       orderId,
-      status: 'PENDING'
+      status: 'PROCESSING'
     });
   } catch (error) {
     console.error('Create order error:', error);

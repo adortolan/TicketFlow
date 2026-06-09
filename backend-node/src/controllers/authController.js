@@ -8,20 +8,20 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '24h';
 
 const register = async (req, res) => {
   try {
-    const { name, email, password, cpf } = req.body;
+    const { nome, email, senha, cpf } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findByEmail(email);
     if (existingUser) {
-      return res.status(400).json({ error: 'Email already registered' });
+      return res.status(409).json({ error: 'Email already registered' });
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(senha, 10);
 
     // Create user
     const userId = await User.create({
-      name,
+      name: nome,
       email,
       password: hashedPassword,
       cpf
@@ -32,7 +32,7 @@ const register = async (req, res) => {
       const channel = getChannel();
       await channel.sendToQueue(
         process.env.RABBITMQ_QUEUE_USER_REGISTERED || 'user.registered',
-        Buffer.from(JSON.stringify({ userId, email, name }))
+        Buffer.from(JSON.stringify({ userId, email, name: nome }))
       );
     } catch (error) {
       console.error('Error publishing to RabbitMQ:', error);
@@ -50,7 +50,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, senha } = req.body;
 
     // Find user
     const user = await User.findByEmail(email);
@@ -59,7 +59,7 @@ const login = async (req, res) => {
     }
 
     // Verify password
-    const validPassword = await bcrypt.compare(password, user.password);
+    const validPassword = await bcrypt.compare(senha, user.password);
     if (!validPassword) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
