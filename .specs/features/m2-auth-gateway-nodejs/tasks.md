@@ -21,7 +21,7 @@
 
 ---
 
-### Task 2: Verificar Startup do Servidor e Conexões
+### Task 2: Verificar Startup do Servidor e Conexões ✅ COMPLETED
 
 **What:** Iniciar o servidor Node.js e confirmar conexão com MySQL e RabbitMQ sem erros
 **Where:** `backend-node/src/server.js`
