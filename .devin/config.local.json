@@ -17,7 +17,20 @@
       "Exec(netstat)",
       "Exec(taskkill)",
       "Exec(curl)",
-      "Exec(git diff)"
+      "Exec(git diff)",
+      "Exec(docker ps)",
+      "Exec(docker-compose up)",
+      "Exec(timeout)",
+      "Exec(git rm)",
+      "Exec(findstr)",
+      "Exec(Invoke-RestMethod)",
+      "Exec($token)",
+      "Exec($response)",
+      "Exec(Write-Host)",
+      "Exec(del)",
+      "Exec(docker-compose ps)",
+      "Exec(docker-compose logs)",
+      "Exec(docker exec)"
     ]
   }
 }
