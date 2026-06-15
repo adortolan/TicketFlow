@@ -17,6 +17,14 @@ class User {
     return rows[0];
   }
 
+  static async findByCpf(cpf) {
+    const [rows] = await pool.execute(
+      'SELECT * FROM users WHERE cpf = ?',
+      [cpf]
+    );
+    return rows[0];
+  }
+
   static async findById(id) {
     const [rows] = await pool.execute(
       'SELECT id, name, email, cpf, role, created_at FROM users WHERE id = ?',

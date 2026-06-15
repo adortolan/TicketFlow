@@ -37,7 +37,7 @@
 
 ---
 
-### Task 3: Testar Endpoint de Registro de Usuário
+### Task 3: Testar Endpoint de Registro de Usuário ✅ COMPLETED
 
 **What:** Validar que POST /api/auth/register funciona conforme spec
 **Where:** `backend-node/src/controllers/authController.js`

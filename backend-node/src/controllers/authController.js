@@ -10,10 +10,21 @@ const register = async (req, res) => {
   try {
     const { nome, email, senha, cpf } = req.body;
 
-    // Check if user already exists
+    // Validate required fields
+    if (!nome || !email || !senha || !cpf) {
+      return res.status(400).json({ error: 'Missing required fields: nome, email, senha, cpf' });
+    }
+
+    // Check if user already exists by email
     const existingUser = await User.findByEmail(email);
     if (existingUser) {
       return res.status(409).json({ error: 'Email already registered' });
+    }
+
+    // Check if CPF already exists
+    const existingUserByCpf = await User.findByCpf(cpf);
+    if (existingUserByCpf) {
+      return res.status(409).json({ error: 'CPF already registered' });
     }
 
     // Hash password
