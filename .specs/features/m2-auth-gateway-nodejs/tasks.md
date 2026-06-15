@@ -65,7 +65,7 @@ curl -X POST http://localhost:3001/api/auth/register \
 
 ---
 
-### Task 4: Testar Endpoint de Login e Geração de JWT
+### Task 4: Testar Endpoint de Login e Geração de JWT ✅ COMPLETED
 
 **What:** Validar que POST /api/auth/login retorna JWT válido com claims corretos
 **Where:** `backend-node/src/controllers/authController.js`
