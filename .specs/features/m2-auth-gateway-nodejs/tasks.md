@@ -87,7 +87,7 @@ curl -X POST http://localhost:3001/api/auth/login \
 
 ---
 
-### Task 5: Testar Middleware de Autenticação JWT
+### Task 5: Testar Middleware de Autenticação JWT ✅ COMPLETED
 
 **What:** Validar que rotas protegidas rejeitam requisições sem token ou com token inválido
 **Where:** `backend-node/src/middleware/auth.js`

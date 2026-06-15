@@ -31,7 +31,8 @@
       "Exec(docker-compose ps)",
       "Exec(docker-compose logs)",
       "Exec(docker exec)",
-      "Exec($body)"
+      "Exec($body)",
+      "Exec(node)"
     ]
   }
 }
