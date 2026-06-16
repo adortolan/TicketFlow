@@ -208,7 +208,7 @@ curl http://localhost:3001/api/orders/1 \
 
 ---
 
-### Task 11: Documentar Endpoints no README do Backend Node.js
+### Task 11: Documentar Endpoints no README do Backend Node.js ✅ COMPLETED
 
 **What:** Atualizar README.md do backend-node com todos os endpoints, payloads e exemplos curl
 **Where:** `backend-node/README.md`
