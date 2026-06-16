@@ -1,11 +1,23 @@
 # State
 
-**Last Updated:** 2026-06-08T18:30:00Z
-**Current Work:** Project documentation update to reflect TicketFlow microservices architecture
+**Last Updated:** 2026-06-16T12:30:00Z
+**Current Work:** Tasks.md criado para migração TypeScript do backend-node — pronto para execução
 
 ---
 
 ## Recent Decisions (Last 60 days)
+
+### AD-009: Migrar backend-node para TypeScript (2026-06-16)
+
+**Decision:** Converter todo o código-fonte de `backend-node` de JavaScript para TypeScript com `tsx + nodemon` em dev e `tsc` para build de produção
+**Reason:** Type safety em compile-time, melhor suporte de IDE, contratos explícitos entre módulos, base para evolução segura do serviço
+**Trade-off:** Adiciona toolchain de build; requer `@types/*` para dependências externas; `dist/` precisa ser excluído do git
+**Impact:** Dev: `npm run dev` via tsx; Prod: `npm start` via `node dist/server.js`; Docker: multi-stage build
+**Decisions captured:**
+- Module system: CommonJS (mantém compatibilidade com amqplib e express)
+- Express Request: estendido com `user?: JWTPayload` via `src/types/express/index.d.ts`
+- Seed script: migrado para `scripts/seed.ts` (executado com `tsx`)
+- `strict: false` inicial para migração incremental
 
 ### AD-005: Adopt microservices architecture for TicketFlow (2026-06-08)
 
@@ -118,7 +130,7 @@ None currently.
 
 ## Deferred Ideas
 
-- [ ] Add TypeScript to frontend for better type safety — Captured during: Project initialization
+- [ ] Add TypeScript to frontend for better type safety — Captured during: Project initialization (backend-node já em andamento via TSMIG feature)
 - [ ] Implement API versioning for future compatibility — Captured during: Project initialization
 - [ ] Add pagination to event list endpoint — Captured during: Microservices architecture planning
 - [ ] Implement caching layer for frequently accessed data — Captured during: Microservices architecture planning
