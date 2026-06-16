@@ -15,6 +15,8 @@ entre módulos e melhor experiência de desenvolvimento.
 - [ ] `npm run build` gera `dist/` com JS compilado sem erros TypeScript
 - [ ] Todos os endpoints existentes continuam funcionando com comportamento idêntico
 - [ ] `AuthRequest` estende `express.Request` com `user: JWTPayload` tipado
+- [ ] `npm test` executa suites Jest sem falhas (unit + integração)
+- [ ] `npm run test:coverage` gera relatório de cobertura em `coverage/`
 
 ## Out of Scope
 
@@ -22,7 +24,6 @@ entre módulos e melhor experiência de desenvolvimento.
 |---|---|
 | Migrar frontend React para TypeScript | Feature separada (já registrada em Deferred Ideas) |
 | Ativar `strict: true` completo | Pode ser habilitado progressivamente em feature futura |
-| Adicionar testes unitários | Escopo separado; não há infraestrutura de testes hoje |
 | Mudar runtime de produção (Bun/Deno) | Fora do objetivo desta migração |
 | Refatorar lógica de negócio existente | Migração pura: mesma lógica, só tipos adicionados |
 
@@ -133,6 +134,27 @@ entre módulos e melhor experiência de desenvolvimento.
 
 ---
 
+### P3: Infraestrutura de testes e suites Jest
+
+**User Story:** Como desenvolvedor, quero Jest + ts-jest configurado e suites de teste cobrindo utils, models, middleware, controllers e o endpoint `/health`, para que regressões sejam detectadas automaticamente em CI.
+
+**Why P3:** Depende da migração TypeScript completa (Fases 1–7). Não bloqueia o servidor, mas garante qualidade após a migração.
+
+**Acceptance Criteria:**
+
+1. WHEN `jest.config.ts` é criado THEN SHALL usar `preset: 'ts-jest'`, `testEnvironment: 'node'`, `roots: ['<rootDir>/src']`, `testMatch: ['**/__tests__/**/*.test.ts']`
+2. WHEN `npm test` é executado THEN SHALL rodar todas as suites sem falhas (exit 0)
+3. WHEN `npm run test:coverage` é executado THEN SHALL gerar `coverage/` com relatório HTML/LCOV
+4. WHEN `AppError` é construído com `('msg', 400, 'INVALID')` THEN `instanceOf AppError === true`, `statusCode === 400`, `isOperational === true`
+5. WHEN `authenticateToken` recebe request sem header `Authorization` THEN SHALL lançar `AppError` com código `TOKEN_REQUIRED`
+6. WHEN `authenticateToken` recebe token JWT válido THEN SHALL chamar `next()` e popular `req.user` com `JWTPayload`
+7. WHEN `requireRole('ADMIN')` é chamado e `req.user.role === 'CLIENTE'` THEN SHALL lançar `AppError` com código `INSUFFICIENT_PERMISSIONS`
+8. WHEN `GET /health` é chamado via Supertest THEN resposta SHALL ter `status` HTTP 200 ou 503, body com campos `status`, `mysql`, `rabbitmq`
+
+**Independent Test:** `npm test -- --passWithNoTests` retorna exit 0 com cobertura gerada.
+
+---
+
 ## Edge Cases
 
 - WHEN `dist/` já existe de build anterior THEN `tsc` SHALL sobrescrever sem conflito
@@ -159,8 +181,11 @@ entre módulos e melhor experiência de desenvolvimento.
 | TSMIG-10 | P1: server.ts | Tasks | Pending |
 | TSMIG-11 | P2: Dockerfile | Tasks | Pending |
 | TSMIG-12 | P2: scripts/seed.ts | Tasks | Pending |
+| TSMIG-13 | P3: Jest + ts-jest infrastructure | Tasks | Pending |
+| TSMIG-14 | P3: Unit test suites (utils/models/middleware/controllers) | Tasks | Pending |
+| TSMIG-15 | P3: Integration test — GET /health (Supertest) | Tasks | Pending |
 
-**Coverage:** 12 total, 12 mapeados para tasks (ver `tasks.md`), 0 unmapped ✅
+**Coverage:** 15 total, 15 mapeados para tasks (ver `tasks.md`), 0 unmapped ✅
 
 ---
 
@@ -172,3 +197,5 @@ entre módulos e melhor experiência de desenvolvimento.
 - [ ] Nenhum arquivo `.js` permanece em `src/` (apenas `dist/` gerado)
 - [ ] `scripts/seed.ts` executa via `npm run seed` sem erros
 - [ ] Dockerfile compila e gera container funcional
+- [ ] `npm test` retorna exit 0 (todas as suites passando)
+- [ ] `npm run test:coverage` gera `coverage/` sem erro
