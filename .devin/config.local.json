@@ -34,7 +34,8 @@
       "Exec($body)",
       "Exec(node)",
       "Exec(docker-compose restart)",
-      "Exec(sleep)"
+      "Exec(sleep)",
+      "Exec(docker logs)"
     ]
   }
 }

@@ -193,7 +193,7 @@ curl http://localhost:3001/api/orders/1 \
 
 ---
 
-### Task 10: Criar Usuário Admin via Seed ou Script
+### Task 10: Criar Usuário Admin via Seed ou Script ✅ COMPLETED
 
 **What:** Criar um usuário com role ADMIN para testes de criação de eventos
 **Where:** `backend-node/scripts/seed.js` (novo arquivo) ou diretamente no MySQL

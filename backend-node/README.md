@@ -84,6 +84,21 @@ docker run -p 3001:3001 --env-file .env backend-node
 docker-compose up backend-node
 ```
 
+## Seed de Usuário Admin
+
+Para criar um usuário administrador para testes, execute o script de seed:
+
+```bash
+npm run seed
+```
+
+Isso criará (ou atualizará) um usuário admin com as seguintes credenciais:
+- **Email**: admin@ticketflow.com
+- **Senha**: admin123
+- **Role**: ADMIN
+
+Você pode usar este usuário para testar endpoints que requerem permissão de administrador, como a criação de eventos.
+
 ## Dependências Principais
 
 - `express` - Framework web
