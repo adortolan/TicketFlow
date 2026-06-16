@@ -6,6 +6,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const pool = require('./config/database');
 const { connectRabbitMQ } = require('./config/rabbitmq');
+const { sendErrorResponse } = require('./utils/errors');
 
 const app = express();
 
@@ -22,6 +23,11 @@ app.use('/api/events', eventRoutes);
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'backend-node' });
+});
+
+// Global error handler (must be last)
+app.use((err, req, res, next) => {
+  sendErrorResponse(res, err);
 });
 
 const PORT = process.env.PORT || 3001;

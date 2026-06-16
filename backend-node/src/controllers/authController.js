@@ -2,29 +2,30 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { getChannel } = require('../config/rabbitmq');
+const { AppError, ErrorCodes } = require('../utils/errors');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '24h';
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
   try {
     const { nome, email, senha, cpf } = req.body;
 
     // Validate required fields
     if (!nome || !email || !senha || !cpf) {
-      return res.status(400).json({ error: 'Missing required fields: nome, email, senha, cpf' });
+      throw new AppError('Missing required fields: nome, email, senha, cpf', 400, ErrorCodes.MISSING_FIELDS);
     }
 
     // Check if user already exists by email
     const existingUser = await User.findByEmail(email);
     if (existingUser) {
-      return res.status(409).json({ error: 'Email already registered' });
+      throw new AppError('Email already registered', 409, ErrorCodes.EMAIL_ALREADY_REGISTERED);
     }
 
     // Check if CPF already exists
     const existingUserByCpf = await User.findByCpf(cpf);
     if (existingUserByCpf) {
-      return res.status(409).json({ error: 'CPF already registered' });
+      throw new AppError('CPF already registered', 409, ErrorCodes.CPF_ALREADY_REGISTERED);
     }
 
     // Hash password
@@ -55,24 +56,24 @@ const register = async (req, res) => {
     });
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error); // Pass to global error handler
   }
 };
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     const { email, senha } = req.body;
 
     // Find user
     const user = await User.findByEmail(email);
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      throw new AppError('Invalid credentials', 401, ErrorCodes.INVALID_CREDENTIALS);
     }
 
     // Verify password
     const validPassword = await bcrypt.compare(senha, user.password);
     if (!validPassword) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      throw new AppError('Invalid credentials', 401, ErrorCodes.INVALID_CREDENTIALS);
     }
 
     // Generate JWT
@@ -93,20 +94,20 @@ const login = async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error); // Pass to global error handler
   }
 };
 
-const getProfile = async (req, res) => {
+const getProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      throw new AppError('User not found', 404, ErrorCodes.USER_NOT_FOUND);
     }
     res.json(user);
   } catch (error) {
     console.error('Get profile error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error); // Pass to global error handler
   }
 };
 

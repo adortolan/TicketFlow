@@ -115,7 +115,7 @@ curl -X POST http://localhost:3001/api/events \
 
 ---
 
-### Task 6: Testar CRUD de Eventos
+### Task 6: Testar CRUD de Eventos ✅ COMPLETED
 
 **What:** Validar endpoints de listagem e criação de eventos
 **Where:** `backend-node/src/controllers/eventController.js`
@@ -132,7 +132,7 @@ curl -X POST http://localhost:3001/api/events \
 
 ---
 
-### Task 7: Testar Fluxo de Criação de Pedido
+### Task 7: Testar Fluxo de Criação de Pedido ✅ COMPLETED
 
 **What:** Validar que POST /api/orders cria pedido PENDING e publica no RabbitMQ
 **Where:** `backend-node/src/controllers/orderController.js`
@@ -160,7 +160,7 @@ curl http://localhost:3001/api/orders/1 \
 
 ---
 
-### Task 8: Padronizar Respostas de Erro
+### Task 8: Padronizar Respostas de Erro ✅ COMPLETED
 
 **What:** Garantir que todos os erros seguem formato JSON consistente
 **Where:** `backend-node/src/server.js` e controllers

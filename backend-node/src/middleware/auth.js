@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { AppError, ErrorCodes } = require('../utils/errors');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
@@ -7,12 +8,12 @@ function authenticateToken(req, res, next) {
   const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
 
   if (!token) {
-    return res.status(401).json({ error: 'Access token required' });
+    throw new AppError('Access token required', 401, ErrorCodes.TOKEN_REQUIRED);
   }
 
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
-      return res.status(403).json({ error: 'Invalid or expired token' });
+      throw new AppError('Invalid or expired token', 403, ErrorCodes.INVALID_TOKEN);
     }
     req.user = user;
     next();
@@ -22,7 +23,7 @@ function authenticateToken(req, res, next) {
 function requireRole(role) {
   return (req, res, next) => {
     if (req.user.role !== role) {
-      return res.status(403).json({ error: 'Insufficient permissions' });
+      throw new AppError('Insufficient permissions', 403, ErrorCodes.INSUFFICIENT_PERMISSIONS);
     }
     next();
   };

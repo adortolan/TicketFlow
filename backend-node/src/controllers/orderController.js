@@ -1,8 +1,9 @@
 const Order = require('../models/Order');
 const Event = require('../models/Event');
 const { getChannel } = require('../config/rabbitmq');
+const { AppError, ErrorCodes } = require('../utils/errors');
 
-const createOrder = async (req, res) => {
+const createOrder = async (req, res, next) => {
   try {
     const { eventId, quantity } = req.body;
     const user_id = req.user.id;
@@ -10,12 +11,12 @@ const createOrder = async (req, res) => {
     // Get event details
     const event = await Event.findById(eventId);
     if (!event) {
-      return res.status(404).json({ error: 'Event not found' });
+      throw new AppError('Event not found', 404, ErrorCodes.EVENT_NOT_FOUND);
     }
 
     // Check availability
     if (event.available_tickets < quantity) {
-      return res.status(400).json({ error: 'Not enough tickets available' });
+      throw new AppError('Not enough tickets available', 400, ErrorCodes.INVALID_INPUT);
     }
 
     // Calculate total price
@@ -40,7 +41,7 @@ const createOrder = async (req, res) => {
         quantity,
         totalPrice: total_price
       };
-      
+
       await channel.sendToQueue(
         process.env.RABBITMQ_QUEUE_ORDER_CREATED || 'order.created',
         Buffer.from(JSON.stringify(orderMessage)),
@@ -58,37 +59,37 @@ const createOrder = async (req, res) => {
     });
   } catch (error) {
     console.error('Create order error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error); // Pass to global error handler
   }
 };
 
-const getOrderById = async (req, res) => {
+const getOrderById = async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id);
-    
+
     if (!order) {
-      return res.status(404).json({ error: 'Order not found' });
+      throw new AppError('Order not found', 404, ErrorCodes.ORDER_NOT_FOUND);
     }
 
     // Check if user owns the order or is admin
     if (order.user_id !== req.user.id && req.user.role !== 'ADMIN') {
-      return res.status(403).json({ error: 'Access denied' });
+      throw new AppError('Access denied', 403, ErrorCodes.INSUFFICIENT_PERMISSIONS);
     }
 
     res.json(order);
   } catch (error) {
     console.error('Get order error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error); // Pass to global error handler
   }
 };
 
-const getUserOrders = async (req, res) => {
+const getUserOrders = async (req, res, next) => {
   try {
     const orders = await Order.findByUserId(req.user.id);
     res.json(orders);
   } catch (error) {
     console.error('Get user orders error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error); // Pass to global error handler
   }
 };
 
