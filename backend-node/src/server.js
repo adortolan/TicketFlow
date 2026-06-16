@@ -21,8 +21,46 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/events', eventRoutes);
 
 // Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', service: 'backend-node' });
+app.get('/health', async (req, res) => {
+  try {
+    // Check MySQL connection
+    let mysqlStatus = 'disconnected';
+    try {
+      const connection = await pool.getConnection();
+      await connection.ping();
+      connection.release();
+      mysqlStatus = 'connected';
+    } catch (error) {
+      mysqlStatus = 'disconnected';
+    }
+
+    // Check RabbitMQ connection
+    let rabbitmqStatus = 'disconnected';
+    try {
+      const { getChannel } = require('./config/rabbitmq');
+      const channel = getChannel();
+      if (channel) {
+        rabbitmqStatus = 'connected';
+      }
+    } catch (error) {
+      rabbitmqStatus = 'disconnected';
+    }
+
+    const overallStatus = (mysqlStatus === 'connected' && rabbitmqStatus === 'connected') ? 'ok' : 'degraded';
+
+    res.json({
+      status: overallStatus,
+      mysql: mysqlStatus,
+      rabbitmq: rabbitmqStatus
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      mysql: 'unknown',
+      rabbitmq: 'unknown',
+      error: 'Health check failed'
+    });
+  }
 });
 
 // Global error handler (must be last)

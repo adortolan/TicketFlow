@@ -178,7 +178,7 @@ curl http://localhost:3001/api/orders/1 \
 
 ---
 
-### Task 9: Implementar Health Check Endpoint
+### Task 9: Implementar Health Check Endpoint ✅ COMPLETED
 
 **What:** Adicionar endpoint GET /health para verificação de saúde do serviço
 **Where:** `backend-node/src/server.js` ou nova rota

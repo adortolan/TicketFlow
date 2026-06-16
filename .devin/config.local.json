@@ -32,7 +32,9 @@
       "Exec(docker-compose logs)",
       "Exec(docker exec)",
       "Exec($body)",
-      "Exec(node)"
+      "Exec(node)",
+      "Exec(docker-compose restart)",
+      "Exec(sleep)"
     ]
   }
 }
