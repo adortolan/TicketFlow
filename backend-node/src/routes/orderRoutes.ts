@@ -1,11 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const { body } = require('express-validator');
-const { createOrder, getOrderById, getUserOrders } = require('../controllers/orderController');
-const { authenticateToken } = require('../middleware/auth');
+import { Router } from 'express';
+import { body, ValidationChain } from 'express-validator';
+import { createOrder, getOrderById, getUserOrders } from '../controllers/orderController';
+import { authenticateToken } from '../middleware/auth';
+
+const router = Router();
 
 // Validation middleware
-const createOrderValidation = [
+const createOrderValidation: ValidationChain[] = [
   body('event_id').isInt().withMessage('Valid event ID is required'),
   body('quantity').isInt({ min: 1 }).withMessage('Quantity must be at least 1')
 ];
@@ -15,4 +16,4 @@ router.post('/', authenticateToken, createOrderValidation, createOrder);
 router.get('/:id', authenticateToken, getOrderById);
 router.get('/user/orders', authenticateToken, getUserOrders);
 
-module.exports = router;
+export default router;

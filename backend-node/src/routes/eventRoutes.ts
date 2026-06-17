@@ -1,11 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const { body } = require('express-validator');
-const { getAllEvents, getEventById, createEvent } = require('../controllers/eventController');
-const { authenticateToken, requireRole } = require('../middleware/auth');
+import { Router } from 'express';
+import { body, ValidationChain } from 'express-validator';
+import { getAllEvents, getEventById, createEvent } from '../controllers/eventController';
+import { authenticateToken, requireRole } from '../middleware/auth';
+
+const router = Router();
 
 // Validation middleware
-const createEventValidation = [
+const createEventValidation: ValidationChain[] = [
   body('name').notEmpty().withMessage('Name is required'),
   body('date').isISO8601().withMessage('Valid date is required'),
   body('location').notEmpty().withMessage('Location is required'),
@@ -18,4 +19,4 @@ router.get('/', getAllEvents);
 router.get('/:id', getEventById);
 router.post('/', authenticateToken, requireRole('ADMIN'), createEventValidation, createEvent);
 
-module.exports = router;
+export default router;
