@@ -1,14 +1,14 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const authRoutes = require('./routes/authRoutes');
-const orderRoutes = require('./routes/orderRoutes');
-const eventRoutes = require('./routes/eventRoutes');
-const pool = require('./config/database');
-const { connectRabbitMQ } = require('./config/rabbitmq');
-const { sendErrorResponse } = require('./utils/errors');
+import 'dotenv/config';
+import express, { Request, Response, NextFunction, Application } from 'express';
+import cors from 'cors';
+import authRoutes from './routes/authRoutes';
+import orderRoutes from './routes/orderRoutes';
+import eventRoutes from './routes/eventRoutes';
+import pool from './config/database';
+import { connectRabbitMQ } from './config/rabbitmq';
+import { sendErrorResponse } from './utils/errors';
 
-const app = express();
+const app: Application = express();
 
 // Middleware
 app.use(cors());
@@ -21,7 +21,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/events', eventRoutes);
 
 // Health check
-app.get('/health', async (req, res) => {
+app.get('/health', async (req: Request, res: Response) => {
   try {
     // Check MySQL connection
     let mysqlStatus = 'disconnected';
@@ -64,13 +64,13 @@ app.get('/health', async (req, res) => {
 });
 
 // Global error handler (must be last)
-app.use((err, req, res, next) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   sendErrorResponse(res, err);
 });
 
 const PORT = process.env.PORT || 3001;
 
-async function startServer() {
+async function startServer(): Promise<void> {
   try {
     // Test MySQL connection
     await pool.getConnection();
@@ -90,6 +90,9 @@ async function startServer() {
   }
 }
 
-startServer();
+// Only start server if this file is run directly
+if (require.main === module) {
+  startServer();
+}
 
-module.exports = app;
+export default app;
