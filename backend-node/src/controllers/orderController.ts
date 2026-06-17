@@ -1,12 +1,13 @@
-const Order = require('../models/Order');
-const Event = require('../models/Event');
-const { getChannel } = require('../config/rabbitmq');
-const { AppError, ErrorCodes } = require('../utils/errors');
+import { Request, Response, NextFunction } from 'express';
+import Order from '../models/Order';
+import Event from '../models/Event';
+import { getChannel } from '../config/rabbitmq';
+import { AppError, ErrorCodes } from '../utils/errors';
 
-const createOrder = async (req, res, next) => {
+export const createOrder = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { eventId, quantity } = req.body;
-    const user_id = req.user.id;
+    const user_id = req.user!.id;
 
     // Get event details
     const event = await Event.findById(eventId);
@@ -63,16 +64,17 @@ const createOrder = async (req, res, next) => {
   }
 };
 
-const getOrderById = async (req, res, next) => {
+export const getOrderById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const order = await Order.findById(req.params.id);
+    const orderId = parseInt(req.params.id as string, 10);
+    const order = await Order.findById(orderId);
 
     if (!order) {
       throw new AppError('Order not found', 404, ErrorCodes.ORDER_NOT_FOUND);
     }
 
     // Check if user owns the order or is admin
-    if (order.user_id !== req.user.id && req.user.role !== 'ADMIN') {
+    if (order.user_id !== req.user!.id && req.user!.role !== 'ADMIN') {
       throw new AppError('Access denied', 403, ErrorCodes.INSUFFICIENT_PERMISSIONS);
     }
 
@@ -83,18 +85,12 @@ const getOrderById = async (req, res, next) => {
   }
 };
 
-const getUserOrders = async (req, res, next) => {
+export const getUserOrders = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const orders = await Order.findByUserId(req.user.id);
+    const orders = await Order.findByUserId(req.user!.id);
     res.json(orders);
   } catch (error) {
     console.error('Get user orders error:', error);
     next(error); // Pass to global error handler
   }
-};
-
-module.exports = {
-  createOrder,
-  getOrderById,
-  getUserOrders
 };

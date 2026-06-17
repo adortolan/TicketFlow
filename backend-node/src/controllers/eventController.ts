@@ -1,8 +1,9 @@
-const Event = require('../models/Event');
-const { authenticateToken, requireRole } = require('../middleware/auth');
-const { AppError, ErrorCodes } = require('../utils/errors');
+import { Request, Response, NextFunction } from 'express';
+import Event from '../models/Event';
+import { authenticateToken, requireRole } from '../middleware/auth';
+import { AppError, ErrorCodes } from '../utils/errors';
 
-const getAllEvents = async (req, res, next) => {
+export const getAllEvents = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const events = await Event.findAll();
     res.json(events);
@@ -12,9 +13,10 @@ const getAllEvents = async (req, res, next) => {
   }
 };
 
-const getEventById = async (req, res, next) => {
+export const getEventById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const event = await Event.findById(req.params.id);
+    const eventId = parseInt(req.params.id as string, 10);
+    const event = await Event.findById(eventId);
     if (!event) {
       throw new AppError('Event not found', 404, ErrorCodes.EVENT_NOT_FOUND);
     }
@@ -25,7 +27,7 @@ const getEventById = async (req, res, next) => {
   }
 };
 
-const createEvent = async (req, res, next) => {
+export const createEvent = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { name, date, location, price, available_tickets } = req.body;
 
@@ -35,7 +37,7 @@ const createEvent = async (req, res, next) => {
       location,
       price,
       available_tickets,
-      created_by: req.user.id
+      created_by: req.user!.id
     });
 
     res.status(201).json({
@@ -46,10 +48,4 @@ const createEvent = async (req, res, next) => {
     console.error('Create event error:', error);
     next(error); // Pass to global error handler
   }
-};
-
-module.exports = {
-  getAllEvents,
-  getEventById,
-  createEvent
 };

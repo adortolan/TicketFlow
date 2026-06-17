@@ -1,13 +1,14 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const { getChannel } = require('../config/rabbitmq');
-const { AppError, ErrorCodes } = require('../utils/errors');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+import User from '../models/User';
+import { getChannel } from '../config/rabbitmq';
+import { AppError, ErrorCodes } from '../utils/errors';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '24h';
 
-const register = async (req, res, next) => {
+export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { nome, email, senha, cpf } = req.body;
 
@@ -60,7 +61,7 @@ const register = async (req, res, next) => {
   }
 };
 
-const login = async (req, res, next) => {
+export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { email, senha } = req.body;
 
@@ -80,7 +81,7 @@ const login = async (req, res, next) => {
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
       JWT_SECRET,
-      { expiresIn: JWT_EXPIRES_IN }
+      { expiresIn: JWT_EXPIRES_IN } as jwt.SignOptions
     );
 
     res.json({
@@ -98,9 +99,9 @@ const login = async (req, res, next) => {
   }
 };
 
-const getProfile = async (req, res, next) => {
+export const getProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user!.id);
     if (!user) {
       throw new AppError('User not found', 404, ErrorCodes.USER_NOT_FOUND);
     }
@@ -109,10 +110,4 @@ const getProfile = async (req, res, next) => {
     console.error('Get profile error:', error);
     next(error); // Pass to global error handler
   }
-};
-
-module.exports = {
-  register,
-  login,
-  getProfile
 };
