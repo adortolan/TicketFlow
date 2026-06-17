@@ -1,9 +1,11 @@
-const jwt = require('jsonwebtoken');
-const { AppError, ErrorCodes } = require('../utils/errors');
+import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+import { AppError, ErrorCodes } from '../utils/errors';
+import { JWTPayload, UserRole } from '../types';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
-function authenticateToken(req, res, next) {
+function authenticateToken(req: Request, res: Response, next: NextFunction): void {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
 
@@ -15,21 +17,21 @@ function authenticateToken(req, res, next) {
     if (err) {
       throw new AppError('Invalid or expired token', 403, ErrorCodes.INVALID_TOKEN);
     }
-    req.user = user;
+    (req as any).user = user as JWTPayload;
     next();
   });
 }
 
-function requireRole(role) {
-  return (req, res, next) => {
-    if (req.user.role !== role) {
+function requireRole(role: UserRole): (req: Request, res: Response, next: NextFunction) => void {
+  return (req: Request, res: Response, next: NextFunction): void => {
+    if ((req as any).user?.role !== role) {
       throw new AppError('Insufficient permissions', 403, ErrorCodes.INSUFFICIENT_PERMISSIONS);
     }
     next();
   };
 }
 
-module.exports = {
+export {
   authenticateToken,
   requireRole
 };
