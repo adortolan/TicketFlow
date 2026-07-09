@@ -1,13 +1,29 @@
-require('dotenv').config();
-const bcrypt = require('bcrypt');
-const pool = require('../src/config/database');
+import 'dotenv/config';
+import bcrypt from 'bcrypt';
+import pool from '../src/config/database';
+import { ResultSetHeader } from 'mysql2';
 
-async function seedAdmin() {
+interface AdminUser {
+  name: string;
+  email: string;
+  password: string;
+  cpf: string;
+  role: string;
+}
+
+interface ExistingUser {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+}
+
+async function seedAdmin(): Promise<void> {
   try {
     console.log('Starting admin user seed...');
     
     // Admin user credentials
-    const adminUser = {
+    const adminUser: AdminUser = {
       name: 'Admin User',
       email: 'admin@ticketflow.com',
       password: 'admin123',
@@ -21,7 +37,7 @@ async function seedAdmin() {
       [adminUser.email]
     );
 
-    if (existingUsers.length > 0) {
+    if ((existingUsers as ExistingUser[]).length > 0) {
       console.log('Admin user already exists with email:', adminUser.email);
       console.log('Updating password to match seed script...');
       
@@ -36,10 +52,10 @@ async function seedAdmin() {
       
       console.log('Password updated successfully!');
       console.log('Admin user details:', {
-        id: existingUsers[0].id,
-        name: existingUsers[0].name,
-        email: existingUsers[0].email,
-        role: existingUsers[0].role
+        id: (existingUsers as ExistingUser[])[0].id,
+        name: (existingUsers as ExistingUser[])[0].name,
+        email: (existingUsers as ExistingUser[])[0].email,
+        role: (existingUsers as ExistingUser[])[0].role
       });
       console.log('You can now login with these credentials.');
       return;
@@ -54,7 +70,7 @@ async function seedAdmin() {
     const [result] = await pool.execute(
       'INSERT INTO users (name, email, password, cpf, role) VALUES (?, ?, ?, ?, ?)',
       [adminUser.name, adminUser.email, hashedPassword, adminUser.cpf, adminUser.role]
-    );
+    ) as [ResultSetHeader, any];
 
     console.log('Admin user created successfully!');
     console.log('User ID:', result.insertId);

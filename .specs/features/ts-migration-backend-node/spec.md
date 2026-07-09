@@ -10,13 +10,14 @@ entre módulos e melhor experiência de desenvolvimento.
 
 ## Goals
 
-- [ ] Todos os arquivos `.js` de `src/` e `scripts/` convertidos para `.ts`
-- [ ] `npm run dev` inicia o servidor via `tsx + nodemon` sem erros de compilação
-- [ ] `npm run build` gera `dist/` com JS compilado sem erros TypeScript
-- [ ] Todos os endpoints existentes continuam funcionando com comportamento idêntico
-- [ ] `AuthRequest` estende `express.Request` com `user: JWTPayload` tipado
-- [ ] `npm test` executa suites Jest sem falhas (unit + integração)
-- [ ] `npm run test:coverage` gera relatório de cobertura em `coverage/`
+- [x] Todos os arquivos `.js` de `src/` convertidos para `.ts`
+- [x] Todos os arquivos `.js` de `scripts/` convertidos para `.ts`
+- [x] `npm run dev` inicia o servidor via `tsx + nodemon` sem erros de compilação
+- [x] `npm run build` gera `dist/` com JS compilado sem erros TypeScript
+- [x] Todos os endpoints existentes continuam funcionando com comportamento idêntico
+- [x] `AuthRequest` estende `express.Request` com `user: JWTPayload` tipado
+- [x] `npm test` executa suites Jest sem falhas (unit + integração)
+- [x] `npm run test:coverage` gera relatório de cobertura em `coverage/`
 
 ## Out of Scope
 
@@ -169,33 +170,34 @@ entre módulos e melhor experiência de desenvolvimento.
 
 | Requirement ID | Story | Phase | Status |
 |---|---|---|---|
-| TSMIG-01 | P1: Toolchain TypeScript | Design | Pending |
-| TSMIG-02 | P1: Tipos compartilhados | Design | Pending |
-| TSMIG-03 | P1: utils/errors.ts | Tasks | Pending |
-| TSMIG-04 | P1: config/database.ts | Tasks | Pending |
-| TSMIG-05 | P1: config/rabbitmq.ts | Tasks | Pending |
-| TSMIG-06 | P1: models/*.ts | Tasks | Pending |
-| TSMIG-07 | P1: middleware/auth.ts | Tasks | Pending |
-| TSMIG-08 | P1: controllers/*.ts | Tasks | Pending |
-| TSMIG-09 | P1: routes/*.ts | Tasks | Pending |
-| TSMIG-10 | P1: server.ts | Tasks | Pending |
-| TSMIG-11 | P2: Dockerfile | Tasks | Pending |
-| TSMIG-12 | P2: scripts/seed.ts | Tasks | Pending |
-| TSMIG-13 | P3: Jest + ts-jest infrastructure | Tasks | Pending |
-| TSMIG-14 | P3: Unit test suites (utils/models/middleware/controllers) | Tasks | Pending |
-| TSMIG-15 | P3: Integration test — GET /health (Supertest) | Tasks | Pending |
+| TSMIG-01 | P1: Toolchain TypeScript | Design | ✅ Completed |
+| TSMIG-02 | P1: Tipos compartilhados | Design | ✅ Completed |
+| TSMIG-03 | P1: utils/errors.ts | Tasks | ✅ Completed |
+| TSMIG-04 | P1: config/database.ts | Tasks | ✅ Completed |
+| TSMIG-05 | P1: config/rabbitmq.ts | Tasks | ✅ Completed |
+| TSMIG-06 | P1: models/*.ts | Tasks | ✅ Completed |
+| TSMIG-07 | P1: middleware/auth.ts | Tasks | ✅ Completed |
+| TSMIG-08 | P1: controllers/*.ts | Tasks | ✅ Completed |
+| TSMIG-09 | P1: routes/*.ts | Tasks | ✅ Completed |
+| TSMIG-10 | P1: server.ts | Tasks | ✅ Completed |
+| TSMIG-11 | P2: Dockerfile | Tasks | ✅ Completed |
+| TSMIG-12 | P2: scripts/seed.ts | Tasks | ✅ Completed |
+| TSMIG-13 | P3: Jest + ts-jest infrastructure | Tasks | ✅ Completed |
+| TSMIG-14 | P3: Unit test suites (utils/models/middleware/controllers) | Tasks | ✅ Completed |
+| TSMIG-15 | P3: Integration test — GET /health (Supertest) | Tasks | ✅ Completed |
 
 **Coverage:** 15 total, 15 mapeados para tasks (ver `tasks.md`), 0 unmapped ✅
+**Progress:** 15/15 completed (100%) - ✅ Migração TypeScript Completa!
 
 ---
 
 ## Success Criteria
 
-- [ ] `npm run build` retorna exit 0 sem erros TypeScript
-- [ ] `npm run dev` inicia o servidor corretamente com `tsx + nodemon`
-- [ ] `GET /health`, `POST /api/auth/register`, `POST /api/auth/login`, `GET /api/events` retornam as mesmas respostas de antes da migração
-- [ ] Nenhum arquivo `.js` permanece em `src/` (apenas `dist/` gerado)
-- [ ] `scripts/seed.ts` executa via `npm run seed` sem erros
-- [ ] Dockerfile compila e gera container funcional
-- [ ] `npm test` retorna exit 0 (todas as suites passando)
-- [ ] `npm run test:coverage` gera `coverage/` sem erro
+- [x] `npm run build` retorna exit 0 sem erros TypeScript
+- [x] `npm run dev` inicia o servidor corretamente com `tsx + nodemon`
+- [x] `GET /health`, `POST /api/auth/register`, `POST /api/auth/login`, `GET /api/events` retornam as mesmas respostas de antes da migração
+- [x] Nenhum arquivo `.js` permanece em `src/` (apenas `dist/` gerado)
+- [x] `scripts/seed.ts` executa via `npm run seed` sem erros
+- [x] Dockerfile compila e gera container funcional
+- [x] `npm test` retorna exit 0 (todas as suites passando)
+- [x] `npm run test:coverage` gera `coverage/` sem erro
