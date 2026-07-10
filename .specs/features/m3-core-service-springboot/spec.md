@@ -2,8 +2,8 @@
 
 **Feature ID:** M3-CORE
 **Milestone:** Milestone 3 - Core Business Service
-**Status:** Planned (20% implemented — estrutura base existe)
-**Last Updated:** 2026-06-09
+**Status:** In Progress (25% implemented — estrutura base + MySQL + RabbitMQ config prontos)
+**Last Updated:** 2026-07-10
 
 ## Overview
 
@@ -15,7 +15,7 @@ Implementar o serviço core de negócio em Spring Boot para processar pedidos de
 
 ## Estado Atual
 
-A estrutura Spring Boot existe com User CRUD básico usando H2 em memória. Precisa ser completamente migrado para MySQL e expandido com as entidades Event e Order, além da integração com RabbitMQ.
+A estrutura Spring Boot existe com User CRUD básico. A migração de H2 para MySQL e a configuração do Spring AMQP/RabbitMQ foram concluídas. O próximo passo é criar as entidades Event e Order, repositories, services e o consumer da fila `order.created`.
 
 ## Arquivos Existentes (a adaptar)
 
@@ -28,7 +28,7 @@ A estrutura Spring Boot existe com User CRUD básico usando H2 em memória. Prec
 | `backend/src/main/java/.../exception/GlobalExceptionHandler.java` | Reusar — já existe |
 | `backend/src/main/java/.../repositories/UserRepository.java` | Manter como referência |
 | `backend/src/main/java/.../services/UserService.java` | Manter como referência |
-| `backend/src/main/resources/application.properties` | Migrar de H2 para MySQL |
+| `backend/src/main/resources/application.properties` | ✅ Migrado para MySQL + RabbitMQ |
 
 ## Requirements
 

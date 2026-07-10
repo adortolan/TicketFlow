@@ -1,6 +1,6 @@
 # Implementation Status vs PRD Requirements
 
-**Last Updated:** 2026-06-08T18:45:00Z
+**Last Updated:** 2026-07-10T18:45:00Z
 
 ## RF01 - Gestão de Usuários (Autenticação JWT)
 
@@ -105,13 +105,14 @@
 - `backend-node/src/config/rabbitmq.js` - COMPLETE
 
 **Backend Spring Boot (Core Service):**
+- [x] Spring AMQP configuration
+- [x] RabbitMQ queue declaration (`order.created`)
 - [ ] RabbitMQ consumer for order.created queue
 - [ ] Order entity for MySQL
 - [ ] Event entity for MySQL
 - [ ] Inventory validation logic
 - [ ] Transaction management for inventory updates
 - [ ] Order status update logic
-- [ ] Spring AMQP configuration
 
 **Frontend React:**
 - [ ] Event selection interface
@@ -141,10 +142,11 @@
 - [x] Management plugin enabled
 - [x] Health check configuration
 - [x] Node.js publisher implementation
+- [x] Spring AMQP configuration
+- [x] Queue declaration in Spring Boot (`order.created`)
 - [ ] Spring Boot consumer implementation
-- [ ] Queue declaration in Spring Boot
 
-**Status:** **60% Complete** - Infrastructure ready, Node.js publisher complete, Spring Boot consumer pending
+**Status:** **75% Complete** - Infrastructure ready, Node.js publisher complete, RabbitMQ config and queue declaration done, Spring Boot consumer pending
 
 ### Docker Compose Orchestration
 - [x] All 5 services configured
@@ -173,9 +175,9 @@
 - Missing: Minor error handling improvements, validation
 
 **Backend Spring Boot (Core):**
-- Progress: 20%
-- Complete: Basic Spring Boot structure, User CRUD
-- Missing: RabbitMQ integration, Event/Order entities, Consumer logic
+- Progress: 25%
+- Complete: Basic Spring Boot structure, User CRUD, MySQL migration, RabbitMQ connection and queue declaration
+- Missing: Event/Order entities, Consumer logic, Transactional order processing
 
 **Infrastructure:**
 - Progress: 100%
@@ -185,11 +187,11 @@
 
 - **RF01 (User Auth):** 60% complete
 - **RF02 (Event Catalog):** 50% complete
-- **RF03 (Async Orders):** 40% complete
+- **RF03 (Async Orders):** 45% complete
 
 ### Overall Project Status
 
-**Total Progress: 55%**
+**Total Progress: 56%**
 
 **Next Priority:**
 1. Implement Spring Boot RabbitMQ consumer for order processing
@@ -209,7 +211,7 @@ None currently. All infrastructure components are operational.
 
 ## Technical Debt
 
-1. **Spring Boot still uses H2 configuration** - Need to migrate to MySQL
+1. **Spring Boot MySQL migration** - ✅ Done (pom.xml, application.properties, RabbitMQ config)
 2. **Frontend still implements User CRUD** - Need to replace with Event/Order UI
 3. **No integration tests** - Need to test RabbitMQ communication
 4. **No E2E tests** - Need to test complete purchase flow

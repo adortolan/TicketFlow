@@ -6,7 +6,9 @@
 
 ## Task Breakdown
 
-### Task 1: Migrar pom.xml (H2 → MySQL + Spring AMQP)
+### Task 1: Migrar pom.xml (H2 → MySQL + Spring AMQP) ✅
+
+**Status:** Done
 
 **What:** Atualizar dependências Maven: remover H2, confirmar MySQL driver e adicionar Spring AMQP
 **Where:** `backend/pom.xml`
@@ -23,7 +25,9 @@
 
 ---
 
-### Task 2: Migrar application.properties para MySQL
+### Task 2: Migrar application.properties para MySQL ✅
+
+**Status:** Done
 
 **What:** Substituir configuração H2 por MySQL com variáveis de ambiente
 **Where:** `backend/src/main/resources/application.properties`
@@ -41,7 +45,9 @@
 
 ---
 
-### Task 3: Configurar Spring AMQP (application.properties e RabbitMQConfig)
+### Task 3: Configurar Spring AMQP (application.properties e RabbitMQConfig) ✅
+
+**Status:** Done
 
 **What:** Configurar conexão RabbitMQ e declarar fila order.created como Spring Bean
 **Where:** `backend/src/main/resources/application.properties` e `backend/src/main/java/.../config/RabbitMQConfig.java`

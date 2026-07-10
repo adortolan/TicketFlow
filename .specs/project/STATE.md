@@ -1,7 +1,7 @@
 # State
 
-**Last Updated:** 2026-07-09T00:00:00Z
-**Current Work:** Migração TypeScript do backend-node concluída com sucesso — 100% completo (15/15 requisitos)
+**Last Updated:** 2026-07-10T00:00:00Z
+**Current Work:** Milestone 3 — Core Business Service (Spring Boot): Tasks 1, 2 e 3 concluídas (migração H2 → MySQL + configuração Spring AMQP/RabbitMQ)
 
 ---
 
@@ -141,6 +141,7 @@ None currently.
 || 003 | Infrastructure setup for microservices (Docker Compose, MySQL, RabbitMQ) | 2026-06-08 | N/A | ✅ Done |
 || 004 | Project documentation update to reflect TicketFlow architecture | 2026-06-08 | N/A | ✅ Done |
 | 005 | TypeScript migration of backend-node service (100% complete) | 2026-07-09 | N/A | ✅ Done |
+| 006 | M3 Spring Boot infra: H2 → MySQL + RabbitMQ config (Tasks 1–3) | 2026-07-10 | N/A | ✅ Done |
 
 ---
 
@@ -161,7 +162,8 @@ None currently.
 - [ ] Implement RF01 - User authentication with JWT in Node.js service
 - [ ] Implement RF02 - Event catalog with role-based access control
 - [ ] Implement RF03 - Async order processing via RabbitMQ
-- [ ] Migrate Spring Boot backend from H2 to MySQL
+- [x] Migrate Spring Boot backend from H2 to MySQL (pom.xml, application.properties, RabbitMQ config — Tasks 1–3)
+- [ ] Implement Spring Boot Event/Order entities and RabbitMQ consumer (Tasks 4–17)
 - [ ] Update frontend React to consume TicketFlow APIs instead of CRUD APIs
 - [ ] Add integration tests for RabbitMQ communication
 - [ ] Add E2E tests for complete purchase flow

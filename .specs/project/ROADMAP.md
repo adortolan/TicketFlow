@@ -77,13 +77,13 @@
 ## Milestone 3: Core Business Service (Spring Boot)
 
 **Goal:** Implementar serviço core para processamento de eventos e pedidos
-**Target:** Planned
+**Target:** In Progress
 
 ### Features
 
-**RF03 - Processamento Assíncrono** - PLANNED
+**RF03 - Processamento Assíncrono** - IN PROGRESS
 
-- Configuração Spring AMQP para RabbitMQ - TODO
+- Configuração Spring AMQP para RabbitMQ - ✅ Done
 - Consumer da fila order.created - TODO
 - Validação de disponibilidade de ingressos - TODO
 - Atualização de estoque no MySQL - TODO
@@ -96,10 +96,10 @@
 - Serviço de gerenciamento de eventos - TODO
 - Validação de role ADMIN para criação - TODO
 
-**Database Integration** - PLANNED
+**Database Integration** - IN PROGRESS
 
-- Configuração MySQL connection - TODO
-- Spring Data JPA configuration - TODO
+- Configuração MySQL connection - ✅ Done
+- Spring Data JPA configuration - ✅ Done
 - Transaction management - TODO
 
 ---

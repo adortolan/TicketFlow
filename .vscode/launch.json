@@ -1,0 +1,33 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Node Backend",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\backend-node\\src\\server.js"
+        },
+        {
+            "type": "java",
+            "name": "Debug Java Spring Boot",
+            "request": "launch",
+            "mainClass": "ortolan.empresa.crud.CrudApplication",
+            "projectName": "crud",
+            "cwd": "${workspaceFolder}\\backend",
+            "args": "",
+            "vmArgs": "-Dspring.profiles.active=dev",
+            "env": {
+                "SPRING_APPLICATION_JSON": "{\"server.port\":8081}"
+            },
+            "noDebug": false,
+            "console": "internalConsole",
+            "shortenCommandLine": "argfile"
+        }
+    ]
+}
